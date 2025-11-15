@@ -119,8 +119,8 @@ export function AboutSection() {
   return (
     <section id="about" className="py-20 md:py-16 px-6 md:px-8 lg:px-12" style={{ backgroundColor: 'var(--about-bg)' }}>
       <div className="max-w-6xl mx-auto">
-        {/* Header with Name and Latest Articles */}
-        <div className="flex flex-col md:flex-row items-start gap-8 mb-12">
+        {/* Header with Name and Profile Picture */}
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-12">
           {/* Left: Name and Rotating Text */}
           <div className="flex-1">
             <p className="text-muted-foreground mb-2">Hi, I'm</p>
@@ -133,8 +133,84 @@ export function AboutSection() {
             </div>
           </div>
 
-          {/* Right: Latest Articles Preview - Aligned with name */}
-          <div className="w-full md:w-auto md:max-w-[600px]">
+          {/* Right: Profile Picture */}
+          <div className="shrink-0">
+          </div>
+        </div>
+
+        {/* Content Grid */}
+        <div className="grid md:grid-cols-2 gap-6 items-start">
+          {/* Left Column */}
+          <div className="space-y-5">
+            {/* Summary */}
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+              Full-Stack Software Engineer with experience developing scalable, high-performance web applications across diverse domains. Strong focus on clean architecture, user experience, and building reliable, data-driven solutions that drive business impact.
+            </p>
+
+            {/* Skill Groups */}
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-sm font-semibold text-primary mb-3 uppercase tracking-wide">Full-Stack Engineer</h3>
+                <div className="flex flex-wrap gap-2">
+                  {['React.js', 'Next.js', 'TypeScript', 'JavaScript (ES6+)', 'Node.js', 'Express.js', 'GraphQL', 'PostgreSQL', 'MongoDB'].map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1 bg-card text-foreground rounded-full text-sm font-medium border border-border"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-primary mb-3 uppercase tracking-wide">AI Engineer</h3>
+                <div className="flex flex-wrap gap-2">
+                  {['Python', 'LangChain', 'OpenAI API', 'Vector Databases', 'RAG Pipelines', 'Prompt Engineering'].map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1 bg-card text-foreground rounded-full text-sm font-medium border border-border"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-primary mb-3 uppercase tracking-wide">DevOps & Cloud</h3>
+                <div className="flex flex-wrap gap-2">
+                  {['AWS', 'Docker', 'CI/CD', 'GitHub Actions', 'Redis', 'Load Balancing', 'CloudWatch'].map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1 bg-card text-foreground rounded-full text-sm font-medium border border-border"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-4 pt-4">
+              <button
+                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                className="cursor-pointer px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity font-medium"
+              >
+                View Projects
+              </button>
+              <button
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="cursor-pointer px-8 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors font-medium"
+              >
+                Contact Me
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column - Latest Articles Preview */}
+          <div className="w-full">
             <div className="mb-4">
               <p className="text-xs font-semibold text-primary mb-1 uppercase tracking-wide">Latest Articles</p>
             </div>
@@ -276,76 +352,6 @@ export function AboutSection() {
             </div>
           </div>
         </div>
-
-        {/* Content */}
-        <div className="space-y-5">
-            {/* Summary */}
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              Full-Stack Software Engineer with experience developing scalable, high-performance web applications across diverse domains. Strong focus on clean architecture, user experience, and building reliable, data-driven solutions that drive business impact.
-            </p>
-
-            {/* Skill Groups */}
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-sm font-semibold text-primary mb-3 uppercase tracking-wide">Full-Stack Engineer</h3>
-                <div className="flex flex-wrap gap-2">
-                  {['React.js', 'Next.js', 'TypeScript', 'JavaScript (ES6+)', 'Node.js', 'Express.js', 'GraphQL', 'PostgreSQL', 'MongoDB'].map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1 bg-card text-foreground rounded-full text-sm font-medium border border-border"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-semibold text-primary mb-3 uppercase tracking-wide">AI Engineer</h3>
-                <div className="flex flex-wrap gap-2">
-                  {['Python', 'LangChain', 'OpenAI API', 'Vector Databases', 'RAG Pipelines', 'Prompt Engineering'].map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1 bg-card text-foreground rounded-full text-sm font-medium border border-border"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-semibold text-primary mb-3 uppercase tracking-wide">DevOps & Cloud</h3>
-                <div className="flex flex-wrap gap-2">
-                  {['AWS', 'Docker', 'CI/CD', 'GitHub Actions', 'Redis', 'Load Balancing', 'CloudWatch'].map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1 bg-card text-foreground rounded-full text-sm font-medium border border-border"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              <button
-                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                className="cursor-pointer px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity font-medium"
-              >
-                View Projects
-              </button>
-              <button
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="cursor-pointer px-8 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors font-medium"
-              >
-                Contact Me
-              </button>
-            </div>
-          </div>
-
 
       </div>
     </section>
