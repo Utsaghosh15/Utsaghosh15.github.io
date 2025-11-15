@@ -52,6 +52,12 @@ export function Navbar() {
             About
           </button>
           <button
+            onClick={() => scrollToSection('learning-articles')}
+            className="cursor-pointer text-foreground hover:text-primary transition-colors"
+          >
+            Learning Articles
+          </button>
+          <button
             onClick={() => scrollToSection('experience')}
             className="cursor-pointer text-foreground hover:text-primary transition-colors"
           >
@@ -101,6 +107,12 @@ export function Navbar() {
               className="cursor-pointer block w-full text-left text-foreground hover:text-primary transition-colors"
             >
               About
+            </button>
+            <button
+              onClick={() => scrollToSection('learning-articles')}
+              className="cursor-pointer block w-full text-left text-foreground hover:text-primary transition-colors"
+            >
+              Learning Articles
             </button>
             <button
               onClick={() => scrollToSection('experience')}

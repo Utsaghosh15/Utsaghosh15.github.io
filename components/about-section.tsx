@@ -117,10 +117,10 @@ export function AboutSection() {
   };
 
   return (
-    <section id="about" className="py-20 md:py-14 px-6 md:px-8 lg:px-12" style={{ backgroundColor: 'var(--about-bg)' }}>
+    <section id="about" className="py-20 md:py-16 px-6 md:px-8 lg:px-12" style={{ backgroundColor: 'var(--about-bg)' }}>
       <div className="max-w-6xl mx-auto">
-        {/* Header with Name and Profile Picture */}
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 mb-12">
+        {/* Header with Name and Latest Articles */}
+        <div className="flex flex-col md:flex-row items-start gap-8 mb-12">
           {/* Left: Name and Rotating Text */}
           <div className="flex-1">
             <p className="text-muted-foreground mb-2">Hi, I'm</p>
@@ -133,15 +133,152 @@ export function AboutSection() {
             </div>
           </div>
 
-          {/* Right: Profile Picture */}
-          <div className="flex-shrink-0">
+          {/* Right: Latest Articles Preview - Aligned with name */}
+          <div className="w-full md:w-auto md:max-w-[600px]">
+            <div className="mb-4">
+              <p className="text-xs font-semibold text-primary mb-1 uppercase tracking-wide">Latest Articles</p>
+            </div>
+            
+            {/* Horizontal Scrollable Container with 2-Row Grid - Showing first 4 articles, scrollable for more */}
+            <div className="relative">
+              {/* Left Scroll Button */}
+              {canScrollLeft && (
+                <button
+                  onClick={() => scrollLatestArticles('left')}
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/95 backdrop-blur border border-border rounded-full p-2 hover:bg-primary hover:text-primary-foreground transition-all shadow-lg cursor-pointer hidden md:flex items-center justify-center"
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              )}
+
+              {/* Right Scroll Button */}
+              {canScrollRight && (
+                <button
+                  onClick={() => scrollLatestArticles('right')}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/95 backdrop-blur border border-border rounded-full p-2 hover:bg-primary hover:text-primary-foreground transition-all shadow-lg cursor-pointer hidden md:flex items-center justify-center"
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              )}
+
+              <div 
+                ref={latestArticlesScrollRef}
+                className="overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth scrollbar-hide"
+                style={{
+                  scrollbarWidth: 'none',
+                  msOverflowStyle: 'none',
+                }}
+              >
+              <div className="flex gap-6 min-w-max">
+                {/* Page 1: First 4 articles in 2x2 grid */}
+                <div className="shrink-0 snap-center w-full md:w-auto">
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Row 1: First 2 articles */}
+                    {articlePreviews.slice(0, 2).map((article) => (
+                      <button
+                        key={article.id}
+                        onClick={scrollToArticles}
+                        className="cursor-pointer w-[240px] md:w-[260px] bg-card border border-border rounded-xl p-5 hover:shadow-lg hover:border-primary transition-all group text-left"
+                      >
+                        <div className="flex items-start gap-3 mb-3">
+                          <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors shrink-0">
+                            <BookOpen className="w-5 h-5 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                              {article.title}
+                            </h4>
+                          </div>
+                        </div>
+                        
+                        <p className="text-sm text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
+                          {article.excerpt}
+                        </p>
+                        
+                        <div className="flex items-center gap-2 text-primary text-sm font-medium group-hover:gap-3 transition-all">
+                          <span>Read More</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </div>
+                      </button>
+                    ))}
+                    
+                    {/* Row 2: Next 2 articles */}
+                    {articlePreviews.slice(2, 4).map((article) => (
+                      <button
+                        key={article.id}
+                        onClick={scrollToArticles}
+                        className="cursor-pointer w-[240px] md:w-[260px] bg-card border border-border rounded-xl p-5 hover:shadow-lg hover:border-primary transition-all group text-left"
+                      >
+                        <div className="flex items-start gap-3 mb-3">
+                          <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors shrink-0">
+                            <BookOpen className="w-5 h-5 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                              {article.title}
+                            </h4>
+                          </div>
+                        </div>
+                        
+                        <p className="text-sm text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
+                          {article.excerpt}
+                        </p>
+                        
+                        <div className="flex items-center gap-2 text-primary text-sm font-medium group-hover:gap-3 transition-all">
+                          <span>Read More</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Page 2: Remaining articles in 2x2 grid */}
+                {articlePreviews.length > 4 && (
+                  <div className="shrink-0 snap-center w-full md:w-auto">
+                    <div className="grid grid-cols-2 gap-4">
+                      {articlePreviews.slice(4, 7).map((article, idx) => (
+                        <button
+                          key={article.id}
+                          onClick={scrollToArticles}
+                          className={`cursor-pointer w-[240px] md:w-[260px] bg-card border border-border rounded-xl p-5 hover:shadow-lg hover:border-primary transition-all group text-left ${
+                            idx === 2 ? 'col-span-2 md:col-span-1' : ''
+                          }`}
+                        >
+                          <div className="flex items-start gap-3 mb-3">
+                            <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors shrink-0">
+                              <BookOpen className="w-5 h-5 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                                {article.title}
+                              </h4>
+                            </div>
+                          </div>
+                          
+                          <p className="text-sm text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
+                            {article.excerpt}
+                          </p>
+                          
+                          <div className="flex items-center gap-2 text-primary text-sm font-medium group-hover:gap-3 transition-all">
+                            <span>Read More</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Rest of Content */}
-        <div className="grid md:grid-cols-2 gap-6 items-start">
-          {/* Left Column */}
-          <div className="space-y-5">
+        {/* Content */}
+        <div className="space-y-5">
             {/* Summary */}
             <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
               Full-Stack Software Engineer with experience developing scalable, high-performance web applications across diverse domains. Strong focus on clean architecture, user experience, and building reliable, data-driven solutions that drive business impact.
@@ -209,149 +346,7 @@ export function AboutSection() {
             </div>
           </div>
 
-          {/* Right Column - Horizontal Scrollable Article Previews in 2 Rows */}
-          <div className="w-full">
-            <div className="mb-4">
-              <p className="text-xs font-semibold text-primary mb-1 uppercase tracking-wide">Latest Articles</p>
-            </div>
-            
-            {/* Horizontal Scrollable Container with 2-Row Grid - Showing first 4 articles, scrollable for more */}
-            <div className="relative">
-              {/* Left Scroll Button */}
-              {canScrollLeft && (
-                <button
-                  onClick={() => scrollLatestArticles('left')}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/95 backdrop-blur border border-border rounded-full p-2 hover:bg-primary hover:text-primary-foreground transition-all shadow-lg cursor-pointer hidden md:flex items-center justify-center"
-                  aria-label="Scroll left"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-              )}
 
-              {/* Right Scroll Button */}
-              {canScrollRight && (
-                <button
-                  onClick={() => scrollLatestArticles('right')}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/95 backdrop-blur border border-border rounded-full p-2 hover:bg-primary hover:text-primary-foreground transition-all shadow-lg cursor-pointer hidden md:flex items-center justify-center"
-                  aria-label="Scroll right"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              )}
-
-              <div 
-                ref={latestArticlesScrollRef}
-                className="overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth scrollbar-hide"
-                style={{
-                  scrollbarWidth: 'none',
-                  msOverflowStyle: 'none',
-                }}
-              >
-              <div className="flex gap-6 min-w-max">
-                {/* Page 1: First 4 articles in 2x2 grid */}
-                <div className="flex-shrink-0 snap-center w-full md:w-auto">
-                  <div className="grid grid-cols-2 gap-4">
-                    {/* Row 1: First 2 articles */}
-                    {articlePreviews.slice(0, 2).map((article) => (
-                      <button
-                        key={article.id}
-                        onClick={scrollToArticles}
-                        className="cursor-pointer w-[240px] md:w-[260px] bg-card border border-border rounded-xl p-5 hover:shadow-lg hover:border-primary transition-all group text-left"
-                      >
-                        <div className="flex items-start gap-3 mb-3">
-                          <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors shrink-0">
-                            <BookOpen className="w-5 h-5 text-primary" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                              {article.title}
-                            </h4>
-                          </div>
-                        </div>
-                        
-                        <p className="text-sm text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
-                          {article.excerpt}
-                        </p>
-                        
-                        <div className="flex items-center gap-2 text-primary text-sm font-medium group-hover:gap-3 transition-all">
-                          <span>Read More</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </div>
-                      </button>
-                    ))}
-                    
-                    {/* Row 2: Next 2 articles */}
-                    {articlePreviews.slice(2, 4).map((article) => (
-                      <button
-                        key={article.id}
-                        onClick={scrollToArticles}
-                        className="cursor-pointer w-[240px] md:w-[260px] bg-card border border-border rounded-xl p-5 hover:shadow-lg hover:border-primary transition-all group text-left"
-                      >
-                        <div className="flex items-start gap-3 mb-3">
-                          <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors shrink-0">
-                            <BookOpen className="w-5 h-5 text-primary" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                              {article.title}
-                            </h4>
-                          </div>
-                        </div>
-                        
-                        <p className="text-sm text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
-                          {article.excerpt}
-                        </p>
-                        
-                        <div className="flex items-center gap-2 text-primary text-sm font-medium group-hover:gap-3 transition-all">
-                          <span>Read More</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Page 2: Remaining articles in 2x2 grid */}
-                {articlePreviews.length > 4 && (
-                  <div className="flex-shrink-0 snap-center w-full md:w-auto">
-                    <div className="grid grid-cols-2 gap-4">
-                      {articlePreviews.slice(4, 7).map((article, idx) => (
-                        <button
-                          key={article.id}
-                          onClick={scrollToArticles}
-                          className={`cursor-pointer w-[240px] md:w-[260px] bg-card border border-border rounded-xl p-5 hover:shadow-lg hover:border-primary transition-all group text-left ${
-                            idx === 2 ? 'col-span-2 md:col-span-1' : ''
-                          }`}
-                        >
-                          <div className="flex items-start gap-3 mb-3">
-                            <div className="p-2 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors shrink-0">
-                              <BookOpen className="w-5 h-5 text-primary" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <h4 className="text-base font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                                {article.title}
-                              </h4>
-                            </div>
-                          </div>
-                          
-                          <p className="text-sm text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
-                            {article.excerpt}
-                          </p>
-                          
-                          <div className="flex items-center gap-2 text-primary text-sm font-medium group-hover:gap-3 transition-all">
-                            <span>Read More</span>
-                            <ArrowRight className="w-4 h-4" />
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
